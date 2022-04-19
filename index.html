@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Scoped CSS Variables and JS</title>
+</head>
+
+<body>
+  <h2>PROJECT OF CHANGING CSS VARIABLE WITH <span class='hl'>JS</span></h2>
+
+  <div class="controls">
+    <label for="spacing">Spacing:</label>
+    <input id="spacing" onchange="changeSize()" type="range" name="spacing" min="10" max="200" value="10"
+      data-sizing="px">
+
+    <label for="blur">Blur:</label>
+    <input id="blur" type="range" name="blur" onchange="changeFilter()" min="0" max="25" value="0" data-sizing="px">
+
+    <label for="base">Base Color</label>
+    <input id="base" type="color" onchange="changeColor()" name="base" value="#fff">
+  </div>
+
+  <img src="./background/bgImage.jpg">
+
+  <style>
+    /*
+      misc styles, nothing to do with CSS variables
+    */
+    :root {
+      --bluring: 0px;
+      --spacing: 10px;
+      --bgcolor: #fff;
+    }
+
+    body {
+      text-align: center;
+      background: #193549;
+      color: white;
+      font-family: 'helvetica neue', sans-serif;
+      font-weight: 100;
+      font-size: 50px;
+    }
+
+    .controls {
+      margin-bottom: 50px;
+    }
+
+    img {
+      max-width: 700px;
+      max-height: 1000px;
+      background-color: var(--bgcolor);
+      padding: var(--spacing);
+      filter: blur(var(--bluring));
+    }
+
+    input {
+      width: 100px;
+    }
+  </style>
+
+  <script>
+    //getting all dom from html
+    const space = document.querySelector("input[name='spacing']");
+    const blur = document.querySelector("input[name='blur']");
+    const bgColor = document.querySelector("input[name='base']");
+    //getting css variable
+    const variable = document.querySelector(":root");
+
+
+    function changeColor() {
+      variable.style.setProperty('--bgcolor', bgColor.value);
+    }
+
+    function changeSize() {
+      variable.style.setProperty('--spacing', space.value + 'px')
+    }
+
+    function changeFilter() {
+      variable.style.setProperty('--bluring', blur.value + 'px')
+    }
+  </script>
+
+</body>
+
+</html>
