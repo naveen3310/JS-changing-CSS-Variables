@@ -11,14 +11,13 @@
 
   <div class="controls">
     <label for="spacing">Spacing:</label>
-    <input id="spacing" onchange="changeSize()" type="range" name="spacing" min="10" max="200" value="10"
-      data-sizing="px">
+    <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
 
     <label for="blur">Blur:</label>
-    <input id="blur" type="range" name="blur" onchange="changeFilter()" min="0" max="25" value="0" data-sizing="px">
+    <input id="blur" type="range" name="blur" min="0" max="25" value="0" data-sizing="px">
 
     <label for="base">Base Color</label>
-    <input id="base" type="color" onchange="changeColor()" name="base" value="#fff">
+    <input id="base" type="color" name="base" value="#fff">
   </div>
 
   <img src="./background/bgImage.jpg">
@@ -28,9 +27,9 @@
       misc styles, nothing to do with CSS variables
     */
     :root {
-      --bluring: 0px;
+      --blur: 0px;
       --spacing: 10px;
-      --bgcolor: #fff;
+      --base: #fff;
     }
 
     body {
@@ -49,9 +48,9 @@
     img {
       max-width: 700px;
       max-height: 1000px;
-      background-color: var(--bgcolor);
+      background-color: var(--base);
       padding: var(--spacing);
-      filter: blur(var(--bluring));
+      filter: blur(var(--blur));
     }
 
     input {
@@ -60,25 +59,15 @@
   </style>
 
   <script>
-    //getting all dom from html
-    const space = document.querySelector("input[name='spacing']");
-    const blur = document.querySelector("input[name='blur']");
-    const bgColor = document.querySelector("input[name='base']");
-    //getting css variable
-    const variable = document.querySelector(":root");
+    const inputs = document.querySelectorAll('.controls input');
 
-
-    function changeColor() {
-      variable.style.setProperty('--bgcolor', bgColor.value);
+    function handleUpdate() {
+      const suffix = this.dataset.sizing || '';
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
     }
 
-    function changeSize() {
-      variable.style.setProperty('--spacing', space.value + 'px')
-    }
-
-    function changeFilter() {
-      variable.style.setProperty('--bluring', blur.value + 'px')
-    }
+    inputs.forEach(input => input.addEventListener('change', handleUpdate));
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
   </script>
 
 </body>
